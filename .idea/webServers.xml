@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="483b57fb-97df-48ef-983e-343f90c3cbf6" name="spring_edu" url="http://woodieserver.shop">
-        <fileTransfer rootFolder="/var/www/html" accessType="SFTP" host="15.164.2.255" port="22" sshConfigId="dd675790-bcc7-4f94-b848-9a363414468c" sshConfig="ubuntu@15.164.2.255:22 key" keyPair="true">
+      <webServer id="99ff4198-39dc-4de4-902c-8c1f58465164" name="spring_edu" url="http://woodieserver.shop">
+        <fileTransfer rootFolder="/var/www/UmcCloneCoding" accessType="SFTP" host="15.164.2.255" port="22" sshConfigId="a09159db-8358-4dcf-b4b2-ac2cc6ff4e0e" sshConfig="ubuntu@15.164.2.255:22 key" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
