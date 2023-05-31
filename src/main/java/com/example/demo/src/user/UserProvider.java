@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sun.security.provider.SHA;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +20,7 @@ import java.util.Objects;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 //Provider : Read의 비즈니스 로직 처리
+@Slf4j
 @Service
 public class UserProvider {
 
@@ -33,6 +36,7 @@ public class UserProvider {
         this.jwtService = jwtService;
     }
 
+    @Transactional
     public List<GetUserRes> getUsers() throws BaseException{
         try{
             List<GetUserRes> getUserRes = userDao.getUsers();
@@ -45,6 +49,7 @@ public class UserProvider {
         }
     }
 
+    @Transactional
     public List<GetUserRes> getUsersByEmail(String email) throws BaseException{
         try{
             List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
@@ -55,7 +60,7 @@ public class UserProvider {
         }
     }
 
-
+    @Transactional
     public GetUserRes getUser(int userIdx) throws BaseException {
         try {
             GetUserRes getUserRes = userDao.getUser(userIdx);
@@ -65,6 +70,7 @@ public class UserProvider {
         }
     }
 
+    @Transactional
     public int checkEmail(String email) throws BaseException{
         try{
             return userDao.checkEmail(email);
@@ -73,7 +79,7 @@ public class UserProvider {
         }
     }
 
-
+    @Transactional
     public boolean findByUserIdx(Long userIdx) throws BaseException {
         try {
             String isExist = userDao.findByUserIdx(userIdx);
@@ -86,4 +92,29 @@ public class UserProvider {
         }
     }
 
+    @Transactional
+    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException {
+        User user = userDao.getPwd(postLoginReq);
+        System.out.println(user.getPassword());
+        String encryptPwd;
+        try {
+            encryptPwd = new SHA256().encrypt(postLoginReq.getPassword());
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+        }
+
+        System.out.println(encryptPwd);
+
+        if(user.getPassword().equals(encryptPwd)) {
+            System.out.println(true);
+            int userIdx = user.getUserIdx();
+            String jwt = jwtService.createJwt(userIdx);
+            System.out.println(jwt);
+            return new PostLoginRes(userIdx, jwt);
+        } else {
+            throw new BaseException(FAILED_TO_LOGIN);
+
+        }
+    }
 }

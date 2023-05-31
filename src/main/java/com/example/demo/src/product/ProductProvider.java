@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ProductProvider {
         this.productDao = productDao;
     }
 
+    @Transactional
     public List<GetProductRes> getProducts() throws BaseException {
         try {
             List<GetProductRes> getProductRes = productDao.getProducts();
@@ -39,6 +41,7 @@ public class ProductProvider {
         }
     }
 
+    @Transactional
     public List<GetProductRes> getProductsByTitle(String postTitle) throws BaseException {
         try {
             List<GetProductRes> getProductRes = productDao.getProductsByTitle(postTitle);
@@ -48,6 +51,7 @@ public class ProductProvider {
         }
     }
 
+    @Transactional
     public List<GetProductRes> getProducts(Long sellerID) throws BaseException {
         try {
             List<GetProductRes> getProductRes = productDao.getProducts(sellerID);
@@ -58,6 +62,7 @@ public class ProductProvider {
         }
     }
 
+    @Transactional
     public boolean findByProductID(Long productID) throws BaseException {
         try {
             String isExist = productDao.findByProductID(productID);

@@ -1,5 +1,6 @@
 package com.example.demo.src.user;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -93,6 +95,11 @@ public class UserController {
         if(postUserReq.getEmail() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
+//        //이메일 정규표현
+//        if(!isRegexEmail(postUserReq.getEmail())){
+//            return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+//        }
+
         // 아이디
         if(postUserReq.getId() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_ID);
@@ -106,7 +113,6 @@ public class UserController {
             PostUserRes postUserRes = userService.createUser(postUserReq);
             return new BaseResponse<>(postUserRes);
         } catch(BaseException exception){
-
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -119,7 +125,14 @@ public class UserController {
     @ResponseBody
     @PatchMapping("/{userIdx}")
     public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestParam String userName){
+
         try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            System.out.println("userIdxByJwt: " + userIdxByJwt);
+            if(userIdxByJwt != userIdx) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
             //같다면 유저네임 변경
             PatchUserReq patchUserReq = new PatchUserReq(userIdx,userName);
             userService.modifyUserName(patchUserReq);
@@ -150,6 +163,23 @@ public class UserController {
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/logIn")
+    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq) {
+        try {
+            System.out.println(postLoginReq.getID() + " " + postLoginReq.getPassword());
+            if(postLoginReq.getID() == null || postLoginReq.getPassword() == null) {
+                return new BaseResponse<>(FAILED_TO_LOGIN);
+            }
+
+            PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
+            return new BaseResponse<>(postLoginRes);
+        } catch (BaseException exception) {
+
+            return new BaseResponse<>(exception.getStatus());
         }
     }
 }

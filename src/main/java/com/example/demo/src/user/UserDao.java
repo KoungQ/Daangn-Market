@@ -100,4 +100,20 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(findByUserIdxQuery,
                 (rs, rowNum) -> new String(rs.getString("status")), findByUserIdxParams);
     }
+
+    public User getPwd(PostLoginReq postLoginReq) {
+        String getPwdQuery = "select userIdx, password, email, userName, ID from Member where ID = ?";
+        String getPwdParams = postLoginReq.getID();
+
+        return this.jdbcTemplate.queryForObject(getPwdQuery,
+                (rs, rowNum) -> new User(
+                        rs.getInt("userIdx"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("userName"),
+                        rs.getString("ID")
+                ),
+                getPwdParams
+        );
+    }
 }

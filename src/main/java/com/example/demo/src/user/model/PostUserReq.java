@@ -1,6 +1,5 @@
 package com.example.demo.src.user.model;
 
-import com.example.demo.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostUserReq extends BaseTimeEntity {
-    private String UserName;
+public class PostUserReq{
+    private String userName;
     private String id;
     private String email;
     private String password;

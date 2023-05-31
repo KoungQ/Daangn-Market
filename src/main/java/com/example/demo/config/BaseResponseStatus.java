@@ -51,6 +51,7 @@ public enum BaseResponseStatus {
     PRODUCTS_EMPTY_CATEGORY(false, BAD_REQUEST.value(), "내용을 입력해주세요."),
 
     DELETE_INVALID_PRODUCT(false, BAD_REQUEST.value(), "존재하지 않는 글입니다."),
+    DELETE_INVALID_WISHLIST(false, BAD_REQUEST.value(), "존재하지 않는 관심 상품입니다."),
 
     /**
      * 50 : Database, Server 오류
@@ -65,6 +66,8 @@ public enum BaseResponseStatus {
     //[PATCH] /product
     DELETE_FAIL_PRODUCT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "게시글 삭제 실패"),
     MODIFY_FAIL_PRICE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "가격 수정 실패"),
+
+    DELETE_FAIL_WISHLIST(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "관심 목록에서 삭제 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 복호화에 실패하였습니다.");

@@ -1,9 +1,35 @@
 server:
-  port: 9000
+  port: 3000
+
+
+---
+
+server:
+  port: 3000
 
 spring:
   application:
     name: demo
+  profiles:
+    active: prod
+
+  sql:
+    init:
+      platform: mysql
+
+  datasource:
+    url: jdbc:mysql://woodiedb-v3.cg3pp6ptcrdy.ap-northeast-2.rds.amazonaws.com:3306/woodieDB?autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
+    username: woodie # Database ID
+    password: rlarudrb119! # Database Password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+server:
+  port: 9000
+
+spring:
+  profiles:
+    active: test
 
   sql:
     init:

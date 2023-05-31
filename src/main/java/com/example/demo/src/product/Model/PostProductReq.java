@@ -1,6 +1,5 @@
 package com.example.demo.src.product.Model;
 
-import com.example.demo.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostProductReq extends BaseTimeEntity {
+public class PostProductReq  {
     private Long productID;
     private Long sellerID;
     private String postTitle;

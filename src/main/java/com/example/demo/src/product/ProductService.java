@@ -5,12 +5,15 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.product.Model.PatchProductReq;
 import com.example.demo.src.product.Model.PostProductReq;
 import com.example.demo.src.product.Model.PostProductRes;
+import com.example.demo.src.wishlist.WishlistController;
+import com.example.demo.src.wishlist.WishlistService;
 import com.example.demo.utils.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -23,14 +26,17 @@ public class ProductService {
 
     private final ProductDao productDao;
     private final ProductProvider productProvider;
+    private final WishlistService wishListService;
 
 
     @Autowired
-    public ProductService(ProductDao productDao, ProductProvider productProvider) {
+    public ProductService(ProductDao productDao, ProductProvider productProvider, WishlistService wishListService) {
         this.productDao = productDao;
         this.productProvider = productProvider;
+        this.wishListService = wishListService;
     }
     // DB에 생성은 잘 되지만 productID sout으로 로그 찍어봐도 안뜨고, 500 db연결에러 뜸
+    @Transactional
     public PostProductRes createProduct(PostProductReq postProductReq) throws BaseException {
         try {
             int productID = productDao.createProduct(postProductReq);
@@ -42,6 +48,7 @@ public class ProductService {
         }
     }
 
+    @Transactional
     public void modifyPrice(PatchProductReq patchProductReq) throws BaseException {
         try {
             int result = productDao.modifyPrice(patchProductReq);
@@ -53,12 +60,14 @@ public class ProductService {
         }
     }
 
+    @Transactional
     public void deleteProduct(Long productID) throws BaseException {
         try {
             int result = productDao.deleteProduct(productID);
             if (result == 0) {
                 throw new BaseException(DELETE_FAIL_PRODUCT);
             }
+            wishListService.deleteWishlistByProductID(productID);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
