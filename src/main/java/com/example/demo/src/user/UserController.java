@@ -10,6 +10,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController
 @RequestMapping("/app/users")
+@Profile("prod")
 public class UserController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 

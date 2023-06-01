@@ -108,10 +108,10 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(getPwdQuery,
                 (rs, rowNum) -> new User(
                         rs.getInt("userIdx"),
-                        rs.getString("password"),
-                        rs.getString("email"),
+                        rs.getString("ID"),
                         rs.getString("userName"),
-                        rs.getString("ID")
+                        rs.getString("password"),
+                        rs.getString("email")
                 ),
                 getPwdParams
         );

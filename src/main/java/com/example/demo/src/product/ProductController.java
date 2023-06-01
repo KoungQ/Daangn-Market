@@ -10,6 +10,8 @@ import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
+@Profile("prod")
 @RequestMapping("/app/products")
 public class ProductController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -41,13 +44,13 @@ public class ProductController {
      */
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetProductRes>> getProducts(@RequestParam(required = false) String postTitle) {
+    public BaseResponse<List<GetProductRes>> getProducts(@RequestParam(value="page", defaultValue = "0") int page, @RequestParam(required = false) String postTitle) {
         try {
             if(postTitle == null) {
-                List<GetProductRes> getProductRes = productProvider.getProducts();
+                List<GetProductRes> getProductRes = productProvider.getProducts(page);
                 return new BaseResponse<>(getProductRes);
             }
-            List<GetProductRes> getProductRes = productProvider.getProductsByTitle(postTitle);
+            List<GetProductRes> getProductRes = productProvider.getProductsByTitle(postTitle, page);
             return new BaseResponse<>(getProductRes);
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
@@ -61,12 +64,12 @@ public class ProductController {
      */
     @ResponseBody
     @GetMapping("/{sellerID}")
-    public BaseResponse<List<GetProductRes>> getProducts(@PathVariable("sellerID") Long sellerID) {
+    public BaseResponse<List<GetProductRes>> getProducts(@RequestParam(value="page", defaultValue = "0") int page, @PathVariable("sellerID") Long sellerID) {
         if(sellerID == null) {
             return new BaseResponse<>(USERS_EMPTY_USER_ID);
         }
         try {
-            List<GetProductRes> getProductRes = productProvider.getProducts(sellerID);
+            List<GetProductRes> getProductRes = productProvider.getProducts(sellerID, page);
             return new BaseResponse<>(getProductRes);
         } catch(BaseException exception) {
             return new BaseResponse<>(exception.getStatus());

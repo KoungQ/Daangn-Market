@@ -31,9 +31,9 @@ public class ProductProvider {
     }
 
     @Transactional
-    public List<GetProductRes> getProducts() throws BaseException {
+    public List<GetProductRes> getProducts(int page) throws BaseException {
         try {
-            List<GetProductRes> getProductRes = productDao.getProducts();
+            List<GetProductRes> getProductRes = productDao.getProducts(page);
             return getProductRes;
         } catch (Exception exception) {
             logger.error("Error!", exception);
@@ -42,9 +42,9 @@ public class ProductProvider {
     }
 
     @Transactional
-    public List<GetProductRes> getProductsByTitle(String postTitle) throws BaseException {
+    public List<GetProductRes> getProductsByTitle(String postTitle, int page) throws BaseException {
         try {
-            List<GetProductRes> getProductRes = productDao.getProductsByTitle(postTitle);
+            List<GetProductRes> getProductRes = productDao.getProductsByTitle(postTitle, page);
             return getProductRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -52,9 +52,9 @@ public class ProductProvider {
     }
 
     @Transactional
-    public List<GetProductRes> getProducts(Long sellerID) throws BaseException {
+    public List<GetProductRes> getProducts(Long sellerID, int page) throws BaseException {
         try {
-            List<GetProductRes> getProductRes = productDao.getProducts(sellerID);
+            List<GetProductRes> getProductRes = productDao.getProducts(sellerID, page);
             return getProductRes;
         } catch (Exception exception) {
             log.error(exception.getMessage());

@@ -17,4 +17,5 @@ public class GetProductRes {
     private Long categoryID;
     private Long dealStatusID;
     private String productImage;
+
 }

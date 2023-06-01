@@ -20,8 +20,9 @@ public class ProductDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<GetProductRes> getProducts() {
-        String getProductsQuery = "select * from Product where Product.status = 'ACTIVE'";
+    public List<GetProductRes> getProducts(int page) {
+        String getProductsQuery = "select * from Product where Product.status = 'ACTIVE' order by productID limit 5 offset ?";
+        int getProductsParams = page * 5;
         return this.jdbcTemplate.query(getProductsQuery,
                 (rs, rowNum) -> new GetProductRes(
                         rs.getLong("productID"),
@@ -32,13 +33,14 @@ public class ProductDao {
                         rs.getString("postContents"),
                         rs.getLong("categoryID"),
                         rs.getLong("dealStatusID"),
-                        rs.getString("productImage"))
-                );
+                        rs.getString("productImage")),
+                getProductsParams
+        );
     }
 
-    public List<GetProductRes> getProductsByTitle(String postTitle) {
-        String getProductsByTitleQuery = "select * from Product where postTitle = ? and Product.status = 'ACTIVE'";
-        String getProductsByTitleParams = postTitle;
+    public List<GetProductRes> getProductsByTitle(String postTitle, int page) {
+        String getProductsByTitleQuery = "select * from Product where postTitle = ? and Product.status = 'ACTIVE' order by productID limit 5 offset ?";
+        Object[] getProductsByTitleParams = new Object[] {postTitle, page * 5};
         return this.jdbcTemplate.query(getProductsByTitleQuery,
                 (rs, rowNum) -> new GetProductRes(
                         rs.getLong("productID"),
@@ -53,9 +55,9 @@ public class ProductDao {
                 getProductsByTitleParams);
     }
 
-    public List<GetProductRes> getProducts(Long sellerID) {
-        String getProductQuery = "select * from Product where sellerID = ? and Product.status = 'ACTIVE'";
-        Long getProductParams = sellerID;
+    public List<GetProductRes> getProducts(Long sellerID, int page) {
+        String getProductQuery = "select * from Product where sellerID = ? and Product.status = 'ACTIVE' order by productID limit 5 offset ?";
+        Object[] getProductParams = new Object[] {sellerID, page * 5};
         return this.jdbcTemplate.query(getProductQuery,
                 (rs, rowNum) -> new GetProductRes(
                         rs.getLong("productID"),

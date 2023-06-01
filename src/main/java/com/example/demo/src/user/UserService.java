@@ -39,7 +39,7 @@ public class UserService {
     @Transactional
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         //중복
-        if(userProvider.checkEmail(postUserReq.getEmail()) ==1){
+        if(userProvider.checkEmail(postUserReq.getEmail()) == 1){
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
 
@@ -58,7 +58,8 @@ public class UserService {
             System.out.println("JWT: " + jwt);
             return new PostUserRes(userIdx, jwt);
         } catch (Exception exception) {
-            log.error(exception.getMessage());
+            //log.error(exception.getMessage());
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

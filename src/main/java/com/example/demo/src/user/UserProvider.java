@@ -95,12 +95,13 @@ public class UserProvider {
     @Transactional
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException {
         User user = userDao.getPwd(postLoginReq);
-        System.out.println(user.getPassword());
+        System.out.println("user: " + user.getPassword());
         String encryptPwd;
         try {
             encryptPwd = new SHA256().encrypt(postLoginReq.getPassword());
         } catch (Exception exception) {
-            log.error(exception.getMessage());
+            //log.error(exception.getMessage());
+            exception.printStackTrace();
             throw new BaseException(PASSWORD_DECRYPTION_ERROR);
         }
 
