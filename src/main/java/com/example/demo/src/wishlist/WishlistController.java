@@ -32,13 +32,13 @@ public class WishlistController {
 
     @ResponseBody
     @GetMapping("{memberID}")
-    public BaseResponse<List<GetWishlistRes>> getWishlists(@PathVariable("memberID") Long memberID) {
+    public BaseResponse<List<GetWishlistRes>> getWishlists(@RequestParam(value="page", defaultValue = "0") int page, @PathVariable("memberID") Long memberID) {
         if(memberID == null) {
             return new BaseResponse<>(USERS_EMPTY_USER_ID);
         }
 
         try {
-            List<GetWishlistRes> getWishlistRes = wishListProvider.getWishlists(memberID);
+            List<GetWishlistRes> getWishlistRes = wishListProvider.getWishlists(page, memberID);
             return new BaseResponse<>(getWishlistRes);
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());

@@ -18,8 +18,8 @@ public class WishlistDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<GetWishlistRes> getWishlists(Long memberID) {
-        String getWishlistsQuery = "select * from InterestProduct where memberID = ?";
+    public List<GetWishlistRes> getWishlists(int page, Long memberID) {
+        String getWishlistsQuery = "select * from InterestProduct where status = 'ACTIVE' and memberID = ? order by interestID limit 5 offset ?";
         Long getWishlistsParams = memberID;
 
         return this.jdbcTemplate.query(getWishlistsQuery,
@@ -31,7 +31,7 @@ public class WishlistDao {
     }
 
     public String findByMemberID(Long memberID) {
-        String findByMemberIDQuery = "select status from InterestProduct where memberID = ?";
+        String findByMemberIDQuery = "select status from InterestProduct where status = 'ACTIVE' and memberID = ?";
         Long findByMemberIDParams = memberID;
 
         return this.jdbcTemplate.queryForObject(findByMemberIDQuery,

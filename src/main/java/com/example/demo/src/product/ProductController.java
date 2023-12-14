@@ -105,6 +105,7 @@ public class ProductController {
         }
     }
 
+    // 가격 수정
     @ResponseBody
     @PatchMapping("/{productID}")
     public BaseResponse<String> modifyPrice(@PathVariable("productID") Long productID, @RequestParam Long price) {
@@ -127,10 +128,10 @@ public class ProductController {
     @PatchMapping("/delete/{productID}")
     public BaseResponse<String> deleteProduct(@PathVariable("productID") Long productID) {
         try {
-            // 삭제하려는 글이 유효한지 확인
             if(productProvider.findByProductID(productID)) {
                 return new BaseResponse<>(DELETE_INVALID_PRODUCT);
             }
+            // 삭제하려는 글이 유효한지 확인
             // 삭제
             productService.deleteProduct(productID);
 

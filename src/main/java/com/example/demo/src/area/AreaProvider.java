@@ -15,7 +15,7 @@ import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
 
 @Service
 public class AreaProvider {
-    AreaDao areaDao = new AreaDao();
+    private final AreaDao areaDao;
 
     public AreaProvider(AreaDao areaDao) {
         this.areaDao = areaDao;

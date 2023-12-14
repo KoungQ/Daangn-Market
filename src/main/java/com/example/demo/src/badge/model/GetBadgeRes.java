@@ -12,6 +12,6 @@ import java.sql.Blob;
 public class GetBadgeRes {
     Long badgeID;
     String badgeName;
-    Blob icon;
+    String icon;
     String badgeInfo;
 }

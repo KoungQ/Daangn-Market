@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.HTTP_VERSION_NOT_SUPPORTED;
 
 /**
  * 에러 코드 관리
@@ -49,6 +50,14 @@ public enum BaseResponseStatus {
     PRODUCTS_EMPTY_PRICE(false, BAD_REQUEST.value(), "가격을 입력해주세요."),
     PRODUCTS_EMPTY_CONTENTS(false, BAD_REQUEST.value(), "내용을 입력해주세요."),
     PRODUCTS_EMPTY_CATEGORY(false, BAD_REQUEST.value(), "내용을 입력해주세요."),
+    AREA_EMPTY_AREAID(false, BAD_REQUEST.value(), "지역을 입력해주세요"),
+    POST_BADGE_BADGEID(false, BAD_REQUEST.value(), "뱃지 ID를 입력해주세요."),
+    POST_BADGE_INVALID_BADGEID(false, BAD_REQUEST.value(), "존재하지 않는 뱃지입니다."),
+    POST_BADGE_INVALID_USER(false, BAD_REQUEST.value(), "존재하지 않는 회원입니다."),
+    POST_CATEGORY_EMPTY_CATEGORYNAME(false, BAD_REQUEST.value(), "카테고리명을 입력해주세요."),
+    POST_AREA_EMPTY_AREA(false, BAD_REQUEST.value(), "지역을 선택해주세요."),
+
+
 
     DELETE_INVALID_PRODUCT(false, BAD_REQUEST.value(), "존재하지 않는 글입니다."),
     DELETE_INVALID_WISHLIST(false, BAD_REQUEST.value(), "존재하지 않는 관심 상품입니다."),
@@ -68,6 +77,10 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_PRICE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "가격 수정 실패"),
 
     DELETE_FAIL_WISHLIST(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "관심 목록에서 삭제 실패"),
+    MODIFY_FAIL_AREA(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "지역 변경 실패"),
+    DELETE_FAIL_CATEGORY(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "카테고리 삭제 실패"),
+    DELETE_FAIL_BADGE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "뱃지 삭제 실패"),
+    DELETE_FAIL_AREA(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "지역 삭제 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 복호화에 실패하였습니다.");

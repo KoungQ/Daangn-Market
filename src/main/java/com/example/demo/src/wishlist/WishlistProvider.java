@@ -30,9 +30,9 @@ public class WishlistProvider {
     }
 
     @Transactional
-    public List<GetWishlistRes> getWishlists(Long memberID) throws BaseException {
+    public List<GetWishlistRes> getWishlists(int page, Long memberID) throws BaseException {
         try {
-            List<GetWishlistRes> getWishlistRes = wishlistDao.getWishlists(memberID);
+            List<GetWishlistRes> getWishlistRes = wishlistDao.getWishlists(page, memberID);
             return getWishlistRes;
         } catch(Exception exception) {
             log.error(exception.getMessage());

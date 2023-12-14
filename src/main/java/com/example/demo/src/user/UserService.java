@@ -3,6 +3,8 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.area.AreaService;
+import com.example.demo.src.badge.BadgeService;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
@@ -25,14 +27,16 @@ public class UserService {
     private final UserDao userDao;
     private final UserProvider userProvider;
     private final JwtService jwtService;
-
+    private final BadgeService badgeService;
+    private final AreaService areaService;
 
     @Autowired
-    public UserService(UserDao userDao, UserProvider userProvider, JwtService jwtService) {
+    public UserService(UserDao userDao, UserProvider userProvider, JwtService jwtService, BadgeService badgeService, AreaService areaService) {
         this.userDao = userDao;
         this.userProvider = userProvider;
         this.jwtService = jwtService;
-
+        this.badgeService = badgeService;
+        this.areaService = areaService;
     }
 
     //POST
@@ -83,7 +87,11 @@ public class UserService {
             if(result == 0) {
                 throw new BaseException(DELETE_FAIL_USER);
             }
+            badgeService.deleteBadgeByMemberID(deleteUserReq.getUserIdx());
+            areaService.deleteAreaByMemberID(deleteUserReq.getUserIdx());
+
         } catch(Exception exception) {
+            log.error(exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
